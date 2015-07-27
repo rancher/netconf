@@ -18,5 +18,4 @@ type InterfaceConfig struct {
 type DnsConfig struct {
 	Nameservers []string `yaml:"nameservers,flow,omitempty"`
 	Search      []string `yaml:"search,flow,omitempty"`
-	Domain      string   `yaml:"domain,omitempty"`
 }
