@@ -1,6 +1,7 @@
 package netconf
 
 type NetworkConfig struct {
+	Script     string                     `yaml:"script,omitempty"`
 	Dns        DnsConfig                  `yaml:"dns,omitempty"`
 	Interfaces map[string]InterfaceConfig `yaml:"interfaces,omitempty"`
 }
