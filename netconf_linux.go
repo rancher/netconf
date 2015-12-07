@@ -3,6 +3,7 @@ package netconf
 import (
 	"bytes"
 	"errors"
+	"io/ioutil"
 	"net"
 	"os"
 	"os/exec"
@@ -12,6 +13,11 @@ import (
 
 	"github.com/ryanuber/go-glob"
 	"github.com/vishvananda/netlink"
+)
+
+const (
+	CONF       = "/var/lib/rancher/conf"
+	NET_SCRIPT = "/var/lib/rancher/conf/network.sh"
 )
 
 func createInterfaces(netCfg *NetworkConfig) error {
@@ -31,8 +37,33 @@ func createInterfaces(netCfg *NetworkConfig) error {
 	return nil
 }
 
+func runScript(netCfg *NetworkConfig) error {
+	if netCfg.Script == "" {
+		return nil
+	}
+
+	if _, err := os.Stat(CONF); os.IsNotExist(err) {
+		if err := os.MkdirAll(CONF, 0700); err != nil {
+			return err
+		}
+	}
+
+	if err := ioutil.WriteFile(NET_SCRIPT, []byte(netCfg.Script), 0700); err != nil {
+		return err
+	}
+
+	cmd := exec.Command(NET_SCRIPT)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
+}
+
 func ApplyNetworkConfigs(netCfg *NetworkConfig) error {
 	log.Debugf("Config: %#v", netCfg)
+	if err := runScript(netCfg); err != nil {
+		log.Errorf("Failed to run script: %v", err)
+	}
+
 	if err := createInterfaces(netCfg); err != nil {
 		return err
 	}
