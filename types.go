@@ -7,13 +7,18 @@ type NetworkConfig struct {
 }
 
 type InterfaceConfig struct {
-	Match   string `yaml:"match,omitempty"`
-	DHCP    bool   `yaml:"dhcp,omitempty"`
-	Address string `yaml:"address,omitempty"`
-	IPV4LL  bool   `yaml:"ipv4ll,omitempty"`
-	Gateway string `yaml:"gateway,omitempty"`
-	MTU     int    `yaml:"mtu,omitempty"`
-	Bridge  bool   `yaml:"bridge,omitempty"`
+	Match       string            `yaml:"match,omitempty"`
+	DHCP        bool              `yaml:"dhcp,omitempty"`
+	Address     string            `yaml:"address,omitempty"`
+	Addresses   []string          `yaml:"addresses,omitempty"`
+	IPV4LL      bool              `yaml:"ipv4ll,omitempty"`
+	Gateway     string            `yaml:"gateway,omitempty"`
+	GatewayIpv6 string            `yaml:"gateway_ipv6,omitempty"`
+	MTU         int               `yaml:"mtu,omitempty"`
+	Bridge      bool              `yaml:"bridge,omitempty"`
+	Bond        string            `yaml:"bond,omitempty"`
+	BondOpts    map[string]string `yaml:"bond_opts,omitempty"`
+	PostUp      []string          `yaml:"post_up,omitempty"`
 }
 
 type DnsConfig struct {
