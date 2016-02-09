@@ -19,6 +19,7 @@ import (
 
 const (
 	CONF = "/var/lib/rancher/conf"
+	MODE = "mode"
 )
 
 var (
@@ -46,8 +47,15 @@ func createInterfaces(netCfg *NetworkConfig) {
 
 			if !configured[iface.Bond] {
 				if bondIface, ok := netCfg.Interfaces[iface.Bond]; ok {
+					// Other settings depends on mode, so set it first
+					if v, ok := bondIface.BondOpts[MODE]; ok {
+						bond.Opt(MODE, v)
+					}
+
 					for k, v := range bondIface.BondOpts {
-						bond.Opt(k, v)
+						if k != MODE {
+							bond.Opt(k, v)
+						}
 					}
 					configured[iface.Bond] = true
 				}
