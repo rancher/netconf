@@ -9,7 +9,7 @@ type NetworkConfig struct {
 
 type InterfaceConfig struct {
 	Match       string            `yaml:"match,omitempty"`
-	DHCP        bool              `yaml:"dhcp,omitempty"`
+	DHCP        bool              `yaml:"dhcp"`
 	DHCPArgs    string            `yaml:"dhcp_args,omitempty"`
 	Address     string            `yaml:"address,omitempty"`
 	Addresses   []string          `yaml:"addresses,omitempty"`
