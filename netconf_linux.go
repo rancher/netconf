@@ -183,6 +183,8 @@ func ApplyNetworkConfigs(netCfg *NetworkConfig) error {
 }
 
 func RunDhcp(netCfg *NetworkConfig, setHostname, setDns bool) error {
+	populateDefault(netCfg)
+
 	links, err := netlink.LinkList()
 	if err != nil {
 		return err
