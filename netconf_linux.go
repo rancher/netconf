@@ -362,7 +362,7 @@ func applyInterfaceConfig(link netlink.Link, netConf InterfaceConfig) error {
 	}
 
 	if err := setGateway(netConf.GatewayIpv6); err != nil {
-		log.Errorf("Fail to set gateway %s", netConf.Gateway)
+		log.Errorf("Fail to set gateway %s", netConf.GatewayIpv6)
 	}
 
 	runCmds(netConf.PostUp, link.Attrs().Name)
